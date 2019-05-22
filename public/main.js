@@ -2,29 +2,43 @@
 
 $(function () {
   var counter = 0;
+  var window_width = window.innerWidth / 2;
   var window_size = window.innerHeight;
+  var min = 50;
+  var max = (window.innerWidth - 50) / 2;
 
-  console.log(window);
-  const box = `<div id="mybox" class="bg-red absolute h3 w3" style="left:400px;top:${counter}px;"></div>`
+  gap = Math.floor(Math.random() * Math.floor(max)); 
+
+  const box = `<div id="mybox" class="bg-red absolute h3" style="width:${window_width};right:0px;top:${counter}px;"></div>`
+  const boxtwo = `<div id="mybox2" class="bg-red absolute h3" style="width:${window_width};left:0px;top:${counter}px;"></div>`
+
   $('#playarea').append(box)
+  $('#playarea').append(boxtwo)
+
 
   var mybox = $("#mybox");
-  var moving = setInterval(move, 50);
+  var myboxtwo = $("#mybox2");
+
+  var moving = setInterval(move, 2);
 
   function move() {
-    var args = `left:400px;top:${counter}px;`;
+    var args = `width: ${window_width - gap};left:0px;top:${counter}px;`;
     mybox.attr("style", args);
-    counter += 40;
-    if (counter > window_size - 50) {
+
+    var args = `width: ${window_width + (gap - 100)};right:0px;top:${counter}px;`;
+    myboxtwo.attr("style", args);
+    if (counter >= window_size - 64) {
       clearInterval(moving);
     }
+    counter += 1;
   }
+
 
 
 
   const session = $('#playarea').data('session')
   //const ws = new WebSocket(`ws://10.218.4.227:3000`)// `` these back-ticks are for javascript interpolation
-  const ws = new WebSocket(`ws://10.218.4.227:3000/socket/${session}`)
+  const ws = new WebSocket(`ws://localhost:9292/socket/${session}`)
 
   let color
 
