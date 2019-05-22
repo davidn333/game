@@ -1,6 +1,10 @@
 //make websocket connection and recieve color
 
 $(function () {
+  const box = `<div class="bg-red absolute h3 w3" style="left:400px;top:400px;"></div>`
+  // using .append to add new boxes of randomly generated proportions to the viewspace
+  $('#playarea').append(box)
+
   const session = $('#playarea').data('session')
   const ws = new WebSocket(`ws://10.218.4.227:3000`)// `` these back-ticks are for javascript interpolation
   let color
