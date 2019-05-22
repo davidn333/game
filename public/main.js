@@ -1,8 +1,31 @@
 //make websocket connection and recieve color
 
 $(function () {
+  var counter = 0;
+  var window_size = window.innerHeight;
+
+  console.log(window);
+  const box = `<div id="mybox" class="bg-red absolute h3 w3" style="left:400px;top:${counter}px;"></div>`
+  $('#playarea').append(box)
+
+  var mybox = $("#mybox");
+  var moving = setInterval(move, 50);
+
+  function move() {
+    var args = `left:400px;top:${counter}px;`;
+    mybox.attr("style", args);
+    counter += 40;
+    if (counter > window_size - 50) {
+      clearInterval(moving);
+    }
+  }
+
+
+
   const session = $('#playarea').data('session')
-  const ws = new WebSocket(`ws://10.218.4.227:3000`)// `` these back-ticks are for javascript interpolation
+  //const ws = new WebSocket(`ws://10.218.4.227:3000`)// `` these back-ticks are for javascript interpolation
+  const ws = new WebSocket(`ws://10.218.4.227:3000/socket/${session}`)
+
   let color
 
   const onDrag = (evt, ui) => {
